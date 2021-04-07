@@ -11,62 +11,18 @@ import java.util.regex.Pattern;
 import org.slf4j.*;
 
 @Data
-public class Text implements TextUnitControl{
+public class Text{
     private List<Paragraph> paragraphList = new ArrayList<>();
     private String text;
     private String fileName;
 
     Text(String fileName) throws IOException{
         this.fileName = fileName;
-        BufferedReader in = null;
-        final  Logger LOGGER = LoggerFactory.getLogger(Text.class);
-
-        try {
-            in = new BufferedReader(new FileReader((fileName)));
-        }catch(FileNotFoundException e){
-            LOGGER.warn("Could not open " + fileName);
-            throw e;
-        }catch(Exception e){
-            try{
-                in.close();
-                LOGGER.info("File(" + fileName + ") is closed ");
-            }catch(IOException e2){
-                LOGGER.warn("Could not close " + fileName);
-                throw e2;
-            }
-            throw e;
-        }
-
-        LOGGER.info("File(" + fileName + ") is open");
-
-        String str;
-        StringBuilder sb = new StringBuilder();
-        while((str = in.readLine()) != null)
-            sb.append(str+"\n");
-        in.close();
-        String string = sb.toString();
-        createList(string);
+        //createList(string);
     }
 
-    @Override
-    public void createList(String text) {
-        Pattern p = Pattern.compile("(?<=\\|)(.+?)(?=\\|)");
-        Matcher m = p.matcher(text);
-        while(m.find()) {
-            //System.out.println(m.group());
-            paragraphList.add(new Paragraph(m.group()));
-        }
-    }
-
-    public List getSentences (){
-        List<Sentence>  sentenceList= new ArrayList<>();
-
-        for(Paragraph paragraph: paragraphList){
-            for(Sentence sentence : paragraph.getSentenceList()){
-                sentenceList.add(sentence);
-            }
-        }
-        return sentenceList;
+    public String getFileName(){
+        return fileName;
     }
 
     public List<Word> getWords(){
@@ -83,7 +39,7 @@ public class Text implements TextUnitControl{
             s+=paragraph;
             s+="\n";
         }
-        //s += "|";
+
         return s;
     }
 }

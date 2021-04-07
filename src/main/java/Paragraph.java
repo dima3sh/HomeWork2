@@ -6,16 +6,16 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 @Data
-public class Paragraph implements TextUnitControl {
+public class Paragraph {
     private List<Sentence> sentenceList = new ArrayList<>();
 
     Paragraph(String paragraph){
         createList(paragraph);
     }
 
-    @Override
+
     public void createList(String text) {
-        Pattern p = Pattern.compile("(?<=[\\.!\\?])?.+?(\\.\\W)?[\\.!\\?]");// скомпилировали регулярное выражение в представление
+        Pattern p = Pattern.compile("(?<=[\\.!\\?])?.+?(\\.\\W)?[\\.!\\?]");
         Matcher m = p.matcher(text);
         while(m.find()) {
             //System.out.println(m.group());

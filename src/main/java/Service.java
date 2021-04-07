@@ -1,6 +1,14 @@
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import java.io.BufferedReader;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.IOException;
 import java.util.List;
 
-public class Service implements ServiceControl {
+/*public class Service implements ServiceControl {
+
     private Text text;
     public Service(Text  text){
         this.text = text;
@@ -39,3 +47,4 @@ public class Service implements ServiceControl {
     }
 
 }
+*/
