@@ -1,3 +1,6 @@
+package Controllers;
+
+import TextUnits.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -11,7 +14,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 //Cпросить мол если наш файл не может быть открыт, что нужно сделать
-public class TextController {
+public class TextController{
     private Text text;
 
     public TextController(Text text){
@@ -45,13 +48,13 @@ public class TextController {
         String str;
         StringBuilder sb = new StringBuilder();
         while((str = in.readLine()) != null)
-            sb.append(str+"\n");
+            sb.append(str);
         in.close();
         return sb.toString();
     }
 
-    public List getParagraphs() {
-        List<Paragraph> paragraphList = new ArrayList<>();
+    /*public List getParagraphs() {
+        List<UnitText> paragraphList = new ArrayList<>();
         Pattern p = Pattern.compile("(?<=\\|)(.+?)(?=\\|)");
         Matcher m = p.matcher(text.toString());
 
@@ -62,13 +65,39 @@ public class TextController {
     }
 
     public List getSentences (){
-        List<Sentence>  sentenceList= new ArrayList<>();
-        List<Paragraph> paragraphs = getParagraphs();
-        for(Paragraph paragraph: paragraphs){
-            for(Sentence sentence : paragraph.getSentenceList()){
+        List<UnitText>  sentenceList= new ArrayList<>();
+        List<UnitText> paragraphs = getParagraphs();
+        for(UnitText paragraph: paragraphs){
+            for(UnitText sentence : paragraph.getUnitTextList()){
                 sentenceList.add(sentence);
             }
         }
         return sentenceList;
+    }
+
+    /*public List getWords(){
+        List<UnitText> words= new ArrayList<>();
+        List<Paragraph> paragraphs = getParagraphs();
+        for(Paragraph paragraph :  paragraphs){
+            words.addAll(paragraph.getWords());
+        }
+        return words;
+    }*/
+
+
+    public void createUnitTextList(String textStr) {
+        List<UnitText> paragraphList = new ArrayList<>();
+        Pattern p = Pattern.compile("\\|\\|?(.+?)\\|");
+        Matcher m = p.matcher(textStr);
+        ParagraphController paragraphController;
+
+        while(m.find()) {
+            //System.out.println(m.group(1));
+            Paragraph paragraph = new Paragraph(m.group(1));
+            paragraphController = new ParagraphController(paragraph);
+            paragraphList.add(paragraph);
+        }
+
+        text.setUnitTextList(paragraphList);
     }
 }

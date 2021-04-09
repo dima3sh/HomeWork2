@@ -1,3 +1,5 @@
+package TextUnits;
+
 import lombok.Data;
 
 import java.io.BufferedReader;
@@ -10,13 +12,11 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import org.slf4j.*;
 
-@Data
-public class Text{
-    private List<Paragraph> paragraphList = new ArrayList<>();
+public class Text extends UnitText{
     private String text;
     private String fileName;
 
-    Text(String fileName) throws IOException{
+    public Text(String fileName) throws IOException{
         this.fileName = fileName;
         //createList(string);
     }
@@ -25,21 +25,12 @@ public class Text{
         return fileName;
     }
 
-    public List<Word> getWords(){
-        List<Word> words= new ArrayList<>();
-        for(Paragraph paragraph : paragraphList){
-            words.addAll(paragraph.getWords());
-        }
-        return words;
-    }
-
     public String toString(){
         String s = "";
-        for(Paragraph paragraph: paragraphList){
+        for(UnitText paragraph: getUnitTextList()){
             s+=paragraph;
             s+="\n";
         }
-
         return s;
     }
 }
